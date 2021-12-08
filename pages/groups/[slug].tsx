@@ -1,10 +1,10 @@
 // @generated: @expo/next-adapter@2.1.52
-import { MediaProvider, MediaQueue, CurrentMediaPlayer } from '../src/MediaPlayer';
+import { MediaProvider, MediaQueue, CurrentMediaPlayer } from '../../src/MediaPlayer';
 import { View } from 'react-native';
 import tw from 'twrnc';
 import axios from 'axios';
-import { mapLinksToRenderable } from '../src/api/helpers/mapLinksToRenderable';
-import getLinks from '../src/api/db/getLinks';
+import { mapLinksToRenderable } from '../../src/api/helpers/mapLinksToRenderable';
+import getLinks from '../../src/api/db/getLinks';
 
 export default function App({ links }) {
 
@@ -24,7 +24,7 @@ export default function App({ links }) {
 }
 
 export const getServerSideProps = async ({ params }) => {
-  const { groupID } = params
-  const { links } = await getLinks(parseInt(groupID)) ;
+  const { slug } = params
+  const { links } = await getLinks(slug) ;
   return { props: { links: mapLinksToRenderable(links) } };
 }

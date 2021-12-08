@@ -1,12 +1,12 @@
 import { Link } from '../../..';
 import { db } from './client';
 
-const getLinks = async (groupID: number) => {
+const getLinks = async (slug: string) => {
   return new Promise<{ links: Link[]}>(async (resolve, reject) => {
-    console.log('rproim', groupID)
+    console.log('rproim', slug)
     db
       .collection('links')
-      .where('group.id', '==', groupID)
+      .where('group.slug', '==', slug)
       .get()
       .then((querySnapshot) => {
         const result = []

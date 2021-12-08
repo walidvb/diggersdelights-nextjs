@@ -3,6 +3,7 @@ import { Link } from '../../..';
 import getLinkMetadata from '../helpers/getLinkMetadata';
 import { db } from './client';
 import admin from 'firebase-admin';
+import slugify from 'slugify';
 
 const updateGroup = async (user: User, group: Chat, linksCountIncrement) => {
   const groupDoc = db.collection('groups').doc(`${group.id}`)
@@ -24,6 +25,7 @@ const createLink = async ({ user, urls, group }: {
   group: Chat,
 }) => {
   await updateGroup(user, group, urls.length)
+  const groupSlug = group.type !== 'private' ? slugify(group.title) : `${group.id}`
   urls.forEach(async (url) => {
     const meta = await getLinkMetadata(url)
     const link: Link = {
@@ -31,6 +33,7 @@ const createLink = async ({ user, urls, group }: {
       group: {
         id: group.id,
         name: group.type === 'group' && group.title,
+        slug: groupSlug,
       },
       user: {
         name: user.username,
