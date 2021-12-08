@@ -6,20 +6,22 @@ import ReactPlayer from 'react-player'
 import { useMediaContext } from "./createMediaContext"
 import MediaControls from './MediaControls'
 import Media from './MediaPlayer'
+import { View } from 'react-native';
+import tw from 'twrnc';
 
 const DefaultDetails = ({ item }) => {
   const { metadata: { createdAt } } = item
   const renderedDate = DateTime.fromISO(createdAt).toLocaleString({ month: 'long', day: 'numeric' })
   return (
-    <div>
-      <div className="italics text-gray-600">{renderedDate}</div>
+    <View>
+      <View style={tw`italics text-gray-600`}>{renderedDate}</View>
       {item.media.title}
-    </div>
+    </View>
   )
 }
 
 export const CurrentMediaPlayer = ({
-  className,
+  style,
   Details = DefaultDetails,
 }) => {
   const { playing } = useMediaContext()
@@ -29,22 +31,22 @@ export const CurrentMediaPlayer = ({
   }
   const canRemoteControl = ReactPlayer.canPlay(playing.media.url)
   return (
-    <div className={`text-black ${className}`}>
+    <View style={[tw`text-black`, style]}>
       <Media
-        className={[canRemoteControl && hidden && "absolute top-0 pointer-events-none opacity-0"].join(' ')}
+        style={canRemoteControl && hidden && tw`absolute top-0 pointer-events-none opacity-0`}
         item={playing}
         lazy={false}
       />
-      <MediaControls item={playing} className="flex items-center gap-2" />
+      <MediaControls item={playing} style={tw`flex items-center gap-2`} />
       <Details item={playing} />
-      <div
-        className="cursor-pointer text-xs text-gray-500 hover:underline mt-1"
+      <View
+        style={tw`cursor-pointer text-xs text-gray-500 hover:underline mt-1`}
         onClick={() => setHidden(!hidden)}
       >
         {hidden ? 'show' : 'hide'}
         {' '}
         player
-      </div>
-    </div>
+      </View>
+    </View>
   )
 }

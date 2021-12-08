@@ -14,7 +14,7 @@ export function MediaFeed({
     </React.Fragment>
   }
 
-  return <div className={className}>
+  return <View tw={className}>
     {queue.map((item) => {
       return <RenderMedia
         key={item.media.url}
@@ -22,5 +22,5 @@ export function MediaFeed({
         renderPlayer={() => <Media key={item.media.url} item={item} />}
       />
     })}
-  </div>
+  </View>
 }

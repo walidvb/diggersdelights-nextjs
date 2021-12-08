@@ -1,23 +1,24 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import ReactPlayer from 'react-player';
 import { useMediaContext, useItemState } from './createMediaContext';
+import { View } from 'react-native';
 
 
 const LazyMedia = ({ image, onClick }) => (
-  <div>
-    <div onClick={onClick}
-      className="relative cursor-pointer aspect-w-16 aspect-h-9"
+  <View>
+    <View onClick={onClick}
+      style={tw`relative cursor-pointer aspect-w-16 aspect-h-9`}
     >
       <YoutubePlayIcon />
-      <img className="w-full" src={image} />
-    </div>
-  </div>
+      <img style={`w-full`} src={image} />
+    </View>
+  </View>
 )
 
 const Media = ({ 
   item, 
   lazy = true,
-  className,
+  style,
 }) => {
   const { next, playing } = useMediaContext()
   const player = useRef()
@@ -37,7 +38,7 @@ const Media = ({
 
   if (!ReactPlayer.canPlay(url)) {
     if(embed_url){
-      return <div className={className}>
+      return <View tw={style}>
         <iframe
           style={{
             border: 0, 
@@ -48,7 +49,7 @@ const Media = ({
          seamless 
          />
 
-      </div>
+      </View>
     }
   }
 
@@ -57,7 +58,7 @@ const Media = ({
     return <LazyMedia className={className} image={image_url} onClick={() => play(item)} />
   }
 
-  return <div className={className}>
+  return <View style={style}>
     <ReactPlayer
       url={url}
       ref={player}
@@ -71,7 +72,7 @@ const Media = ({
       controls
       playing={isPlaying && playing.isPlaying}
       />
-    </div>
+    </View>
 };
 
 export default Media
@@ -91,7 +92,7 @@ function getThumb(url) {
 
 
 const YoutubePlayIcon = ({ className }) => {
-  return <div className="absolute inset-0 flex items-center justify-center  ">
+  return <View style={tw`absolute inset-0 flex items-center justify-center  `}>
     <svg className="w-24" xmlns="http://www.w3.org/2000/svg" version="1.1" id="YouTube_Icon" x="0px" y="0px" viewBox="0 0 1024 721" enableBackground="new 0 0 1024 721" >
       <path id="Triangle" fill="#FFFFFF" d="M407,493l276-143L407,206V493z" />
       <path id="The_Sharpness" opacity="0.12" fillRule="evenodd" clipRule="evenodd" d="M407,206l242,161.6l34-17.6L407,206z" />
@@ -101,5 +102,5 @@ const YoutubePlayIcon = ({ className }) => {
         </g>
       </g>
     </svg>
-  </div>
+  </View>
 }

@@ -1,5 +1,7 @@
 // @generated: @expo/next-adapter@2.1.52
 import { MediaProvider, MediaQueue, CurrentMediaPlayer } from '../src/MediaPlayer';
+import { View } from 'react-native';
+import tw from 'twrnc';
 
 export default function App() {
   return (
@@ -16,13 +18,13 @@ export default function App() {
     }
 
     ]}>
-      <div className="pb-16 container mx-auto">
+      <View style={tw`pb-16 container mx-auto`}>
         <MediaQueue
           withTimeSeparators
           type="grid"
         />
-        <CurrentMediaPlayer className="fixed bottom-1 right-1 border p-2 z-10 bg-white" />
-      </div>
+        <CurrentMediaPlayer style={[tw`bottom-1 right-1 border p-2 z-10 bg-white`, { position: 'fixed'}]} />
+      </View>
     </MediaProvider>
   );
 }

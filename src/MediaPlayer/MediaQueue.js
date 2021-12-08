@@ -4,29 +4,31 @@ import { DateTime, Interval } from 'luxon'
 
 import { useItemState, useMediaContext } from './createMediaContext'
 import MediaControls from './MediaControls'
+import { View } from 'react-native';
+import tw from 'twrnc';
 
 const ItemMini = ({ item, className }) => {
   const { media: { title, image_url }, metadata: { createdAt } } = item
   const { isPlaying } = useItemState(item)
   const renderedDate = DateTime.fromISO(createdAt).toLocaleString({ month: 'long', day: 'numeric' })
   return (
-    <div className={`flex items-center group ${className}`}>
-      <div className="relative w-12 h-12 bg-center bg-cover flex-shrink-0 mr-2" style={{ backgroundImage: `url(${image_url})` }}>
+    <View tw={`flex items-center group ${className}`}>
+      <View style={[tw`relative w-12 h-12 bg-center bg-cover flex-shrink-0 mr-2`, { backgroundImage: `url(${image_url})` }]} >
         <MediaControls
-          className={`absolute object-center group-hover:opacity-100 ${!isPlaying && 'opacity-0'}`}
+          style={tw`absolute object-center group-hover:opacity-100 ${!isPlaying && 'opacity-0'}`}
           noProgress
           item={item}
         />
-      </div>
-      <div>
-        <div className="text-gray-600 text-xs italic">
+      </View>
+      <View>
+        <View style={tw`text-gray-600 text-xs italic`}>
           {renderedDate}
-        </div>
-        <div className={`mr-2 text-sm ${isPlaying && 'font-bold'}`}>
+        </View>
+        <View tw={`mr-2 text-sm ${isPlaying && 'font-bold'}`}>
           { title }
-        </div>
-      </div>
-    </div>
+        </View>
+      </View>
+    </View>
   )
 }
 
@@ -35,41 +37,41 @@ const Squares = ({ item }) => {
   const { media: { image_url, title }, metadata: { createdAt } } = item
   const renderedDate = DateTime.fromISO(createdAt).toLocaleString({ month: 'long', day: 'numeric' })
   return (
-    <div>
-      <div className="relative group cursor-pointer" onClick={() => play(item)}>
+    <View>
+      <View style={tw`relative group cursor-pointer`} onClick={() => play(item)}>
         <img src={image_url} className="max-w-full h-auto" />
         <MediaControls
-          className={`absolute text-blue-600 object-center top-1/2 
+          style={tw`absolute text-blue-600 object-center top-1/2 
             left-1/2 transform -translate-x-1/2 -translate-y-1/2 group-hover:opacity-100 
             ${!isPlaying && 'opacity-0'}
           `}
           noProgress
           item={item}
         />
-      </div>
-      <div className="text-gray-600 text-xs italic">
+      </View>
+      <View style={tw`text-gray-600 text-xs italic`}>
         {renderedDate}
-      </div>
-      <div className={`mr-2 text-sm ${isPlaying && 'font-bold'}`}>
+      </View>
+      <View tw={`mr-2 text-sm ${isPlaying && 'font-bold'}`}>
         {title}
-      </div>
-    </div>
+      </View>
+    </View>
   )
 }
 
 const GridDateSeparator = ({ timestamp }) => {
   const [, copy] = timestamp
   return (
-    <div className="col-span-full pt-2 mt-4 mb-2 border-t border-blue-500 text-xl">
+    <View style={tw`col-span-full pt-2 mt-4 mb-2 border-t border-blue-500 text-xl`}>
       {copy}
-    </div>
+    </View>
   )
 }
 
 const DateSeparator = ({ timestamp }) => (
-  <div className="text-gray-600 pt-4 pb-1 px-1">
+  <View style={tw`text-gray-600 pt-4 pb-1 px-1`}>
     {timestamp[1]}
-  </div>
+  </View>
 )
 
 const now = DateTime.now()
@@ -98,7 +100,7 @@ export function MediaQueue({
   ]
 
   return (
-    <div className={wrapperStyles[type]}>
+    <View tw={wrapperStyles[type]}>
       {queue.map((item) => {
         const interval = Interval.fromDateTimes(DateTime.fromISO(item.metadata.createdAt), now).length('days')
         const displayTime = intervals.find((stamp) => interval >= stamp[0])
@@ -114,6 +116,6 @@ export function MediaQueue({
           </React.Fragment>
         )
       })}
-    </div>
+    </View>
   )
 }
