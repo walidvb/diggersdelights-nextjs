@@ -31,7 +31,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "build": "next build",
-    "set-local-webhook": "curl https://api.telegram.org/bot5030092060:AAEMo-oULnKUnauU9z8UFfVS0Pa69VE5NfI/setWebhook?url=https://diggersdelights.vercel.app/api/telegram"
+    "set-local-webhook": "curl https://api.telegram.org/bot5030092060:AAEMo-oULnKUnauU9z8UFfVS0Pa69VE5NfI/setWebhook?url=https://diggersdelights-4h5wnex6v-walidvb.vercel.app/api/telegram"
   },
   "private": true
 }

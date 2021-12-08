@@ -1,8 +1,8 @@
-import { increment } from "@firebase/firestore";
 import { Chat, User } from '@grammyjs/types';
 import { Link } from '../../..';
 import getLinkMetadata from '../helpers/getLinkMetadata';
 import { db } from './client';
+import admin from 'firebase-admin';
 
 const updateGroup = async (user: User, group: Chat, newLinksCount) => {
   const groupDoc = db.collection('groups').doc(`${group.id}`)
@@ -10,7 +10,7 @@ const updateGroup = async (user: User, group: Chat, newLinksCount) => {
   const userDoc = usersCollection.doc(`${user.id}`)
   await userDoc.set(user)
   await groupDoc.update({
-    linksCount: increment(newLinksCount),
+    linksCount: admin.firestore.FieldValue.increment(newLinksCount),
   })
   console.log('updated group')
 }
