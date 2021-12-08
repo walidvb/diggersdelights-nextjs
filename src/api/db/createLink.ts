@@ -6,7 +6,8 @@ import admin from 'firebase-admin';
 import slugify from 'slugify';
 
 const updateGroup = async (user: User, group: Chat, linksCountIncrement) => {
-  const groupDoc = db.collection('groups').doc(`${group.id}`)
+  const groupSlug = group.type !== 'private' ? slugify(group.title) : `${group.id}`
+  const groupDoc = db.collection('groups').doc(groupSlug)
   const usersCollection = groupDoc.collection('users')
   const userDoc = usersCollection.doc(`${user.username}`)
   console.log("user, ", user, userDoc)

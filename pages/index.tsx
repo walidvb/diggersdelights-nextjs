@@ -1,13 +1,24 @@
 // @generated: @expo/next-adapter@2.1.52
-import { MediaProvider, MediaQueue, CurrentMediaPlayer } from '../src/MediaPlayer';
+import Link from 'next/link';
 import { View } from 'react-native';
 import tw from 'twrnc';
-import axios from '../node_modules/axios/index';
-import { mapLinksToRenderable } from '../src/api/helpers/mapLinksToRenderable';
+import getGroups from '../src/api/db/getGroups';
 
-export default function App({ links }) {
+export default function App({ groups }) {
 
   return (
-    <h1>Welcome back!</h1>
+    <View style={[tw`mx-auto`, { maxWidth: 800 }]}>
+      <h1>Welcome back!</h1>
+      {groups.map(group => (<Link key={group.id} href={`groups/${group.slug}`}>
+        <a>{group.meta.title}</a>
+      </Link>))}
+    </View>
+    
   );
+}
+
+
+export const getServerSideProps = async ({ params }) => {
+  const { groups } = await getGroups()
+  return { props: { groups } };
 }
