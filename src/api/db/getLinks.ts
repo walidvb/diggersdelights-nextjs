@@ -1,13 +1,6 @@
 import { Link } from '../../..';
 import { db } from './client';
 
-import { collection } from 'firebase/firestore';
-import { where } from '@firebase/firestore';
-import { query } from '@firebase/firestore';
-import { getDocs } from '@firebase/firestore';
-import { Link } from '../../../';
-
-
 const getLinks = async (groupID: number) => {
   return new Promise<{ links: Link[]}>(async (resolve, reject) => {
     console.log('rproim', groupID)
