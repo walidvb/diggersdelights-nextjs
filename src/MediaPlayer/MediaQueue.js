@@ -116,9 +116,10 @@ export function MediaQueue({
             {withTimeSeparators && title && <RenderDateSeparator timestamp={title} />}
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-7 gap-x-4 gap-y-6">
               {data.map(item => <RenderMedia
-              key={item.id}
-                item={item}
-              />)}
+                key={item.id}
+                  item={item}
+                />
+              )}
             </div>
           </React.Fragment>
         })

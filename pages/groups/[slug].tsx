@@ -9,7 +9,7 @@ import getLinks from '../../src/api/db/getLinks';
 export default function App({ links }) {
 
   return (
-    <View style={tw`bg-gray-900 flex h-full`}>
+    <View style={tw`bg-gray-900 flex h-full px-4`}>
       <MediaProvider list={links}>
         <div className="container mx-auto pb-16">
           <MediaQueue

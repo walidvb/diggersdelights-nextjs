@@ -18,10 +18,12 @@ bot.command("share", async (ctx: Context) => {
   console.log(entities)
   const urls = convertEntitiesToUrls(entities, text)
   if(!urls.length){
-    ctx.reply('Please share a link')
+    console.log(urls)
+    ctx.reply(`Please share a link\nPS: I saw this: ${JSON.stringify({urls, entities})}`)
     return
   }
   await createLink({ urls, user, group })
+  ctx.reply('Thanks for sharing!')
   console.log('/share')
 })
 
