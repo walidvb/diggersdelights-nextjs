@@ -3,6 +3,7 @@ import { MessageEntity } from '@grammyjs/types';
 import { Bot, Context, webhookCallback } from 'grammy';
 import { createLink }  from '../../src/api/db'
 import createGroup from '../../src/api/db/createGroup';
+import { slugifyGroup } from '../../src/shared/helpers/slugifyGroup';
 
 const token = process.env.TELEGRAM_TOKEN
 const baseUrl = process.env.BASE_URL
@@ -28,7 +29,8 @@ bot.command('play', async (ctx: Context) => {
   console.log('play')
   const { msg } = ctx
   const { chat: group } = msg;
-  const url = `${baseUrl}/${group.id}`
+  const slug = slugifyGroup(group)
+  const url = `${baseUrl}/groups/${slug}`
   ctx.reply(`Here's a link to have a listen! ${url}`)
 })
 
