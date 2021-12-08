@@ -20,3 +20,13 @@ type Link = {
   group: number,
   createdAt: string,
 }
+
+type RenderableLink = {
+  media: {
+    image_url: string,
+    title: string
+  },
+  metadata: {
+    createdAt: string
+  }
+}
