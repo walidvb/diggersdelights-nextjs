@@ -1,21 +1,27 @@
-import { doc } from '@firebase/firestore';
+import { Link } from '../../..';
 import { db } from './client';
-import { getDoc } from '@firebase/firestore';
 
 
 const getLinks = async (groupID: number) => {
-  console.log('getLinks');
-  const groupRef = doc(db, 'groups', `${groupID}`)
-  console.log('getRef');
-  const docSnap = await getDoc(groupRef);
-  console.log('gotSnap');
-
-  if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
-  } else {
-    // doc.data() will be undefined in this case
-    console.log("No such document!");
-  }
+  return new Promise<{ links: Link[]}>(async (resolve, reject) => {
+    console.log('rproim', groupID)
+    db
+      .collection('links')
+      .where('group', '==', groupID)
+      .get()
+      .then((querySnapshot) => {
+        const result = []
+        console.log("resutl", querySnapshot)
+        querySnapshot.forEach((doc) => {
+          result.push(doc.data())
+          console.log(doc.data())
+        })
+        resolve({ links: result });
+      })
+      .catch((error) => {
+        reject({ error });
+      });
+  })
 }
 
 export default getLinks

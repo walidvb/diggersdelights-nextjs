@@ -7,21 +7,20 @@ import { where } from '@firebase/firestore';
 import { getDocs } from '@firebase/firestore';
 
 
-const getLinks = async (req, res) => {
+export default async function(req, res){
   const groupID: number = parseInt(req.query.groupID) || -676856925
-  console.log(groupID)
-  const linksRef = collection(db, 'links')
-  const q = query(linksRef, where('group', '==', groupID))
-  console.log('gotSnap');
-
-  const querySnapshot = await getDocs(q);
-  const links = []
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    links.push(doc.data())
-  });
-
-  res.send({ links });
+  db
+    .collection('links')
+    .where('group', '==', groupID)
+    .get()
+    .then((querySnapshot) => {
+      const result = []
+      querySnapshot.forEach((doc) => {
+        result.push(doc.data())
+      })
+      res.json({ links: result });
+    })
+    .catch((error) => {
+      res.json({ error });
+    });
 }
-
-export default getLinks
