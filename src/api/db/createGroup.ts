@@ -1,15 +1,9 @@
 import { Chat, User } from '@grammyjs/types'
-import { doc } from '@firebase/firestore'; // for creating a pointer to our Document
+import { doc, FieldValue } from '@firebase/firestore'; // for creating a pointer to our Document
 import { db } from './client';
 import { setDoc } from 'firebase/firestore';
 
-type Group = {
-  id: number,
-  users: number[],
-  meta: {
 
-  },
-}
 
 
 
@@ -23,7 +17,8 @@ const createGroup = async ({ group }: {
     users: [],
     meta: {
       ...group,
-    }
+    },
+    created_at: new Date().toISOString(),
   }
   await setDoc(groupDoc, groupToCreate)
 

@@ -1,18 +1,8 @@
 import { Chat, User } from '@grammyjs/types'
 import { collection, increment } from "@firebase/firestore";
 import { db } from './client';
-import { addDoc, doc, arrayUnion, updateDoc, setDoc } from 'firebase/firestore';
-
-type Link = {
-  url: string,
-  meta?: {
-  },
-  user: {
-    id: number,
-    name: string,
-  },
-  group: number,
-}
+import { addDoc, doc, updateDoc, setDoc } from 'firebase/firestore';
+import getLinkMetadata from '../helpers/getLinkMetadata';
 
 const updateGroup = async (user: User, group: Chat, newLinksCount) => {
   const groupDoc = doc(db, 'groups', `${group.id}`)
@@ -32,13 +22,16 @@ const createLink = async ({ user, urls, group }: {
 }) => {
   await updateGroup(user, group, urls.length)
   urls.forEach(async (url) => {
+    const meta = await getLinkMetadata(url)
     const link: Link = {
       url,
       group: group.id,
       user: {
         name: user.username,
         id: user.id,
-      }
+      },
+      createdAt: new Date().toISOString(),
+      meta,
     }
     addDoc(collection(db, 'links'), link)
   })
