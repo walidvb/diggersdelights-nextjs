@@ -2,22 +2,13 @@
 import { MediaProvider, MediaQueue, CurrentMediaPlayer } from '../src/MediaPlayer';
 import { View } from 'react-native';
 import tw from 'twrnc';
+import axios from '../node_modules/axios/index';
+import { mapLinksToRenderable } from '../src/api/helpers/mapLinksToRenderable';
 
-export default function App() {
+export default function App({ links }) {
+
   return (
-    <MediaProvider list={[{
-      media: {
-        url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-        image_url: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
-        title: 'Rick Astley - Never Gonna Give You Up',
-        description: 'Rick Astley - Never Gonna Give You Up',
-      },
-      metadata: {
-        createdAt: '2020-01-01T00:00:00.000Z',
-      }
-    }
-
-    ]}>
+    <MediaProvider list={links}>
       <View style={tw`pb-16 container mx-auto`}>
         <MediaQueue
           withTimeSeparators
@@ -27,4 +18,10 @@ export default function App() {
       </View>
     </MediaProvider>
   );
+}
+
+export const getStaticProps = async () => {
+  const { data: { links } } = await axios.get("http://localhost:3000/api/links") ;
+  console.log(links)
+  return { props: { links: mapLinksToRenderable(links) } };
 }

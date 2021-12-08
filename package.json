@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@supabase/supabase-js": "^1.28.5",
+    "axios": "^0.24.0",
     "expo": "^43.0.0",
     "firebase": "^9.6.0",
     "grammy": "^1.5.0",
@@ -30,7 +31,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "build": "next build",
-    "set-local-webhook": "curl https://api.telegram.org/bot5030092060:AAEMo-oULnKUnauU9z8UFfVS0Pa69VE5NfI/setWebhook?url=https://0cdb-2804-14c-43-88e7-91ba-62c1-46b-c319.ngrok.io/api/telegram"
+    "set-local-webhook": "curl https://api.telegram.org/bot5030092060:AAEMo-oULnKUnauU9z8UFfVS0Pa69VE5NfI/setWebhook?url=https://3ac4-2804-14c-43-88e7-91ba-62c1-46b-c319.ngrok.io/api/telegram"
   },
   "private": true
 }

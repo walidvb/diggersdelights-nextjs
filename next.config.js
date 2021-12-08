@@ -2,7 +2,6 @@ const { withExpo } = require('@expo/next-adapter');
 const { withUnimodules } = require('@expo/webpack-config/addons');
 
 const customExpoConfig = {
-  ...withExpo(),
   webpack(nextConfig, options) {
     const babel = {
       dangerouslyAddModulePathsToTranspile: [
@@ -28,4 +27,4 @@ const customExpoConfig = {
   }
 };
 
-module.exports = customExpoConfig;
+module.exports = withExpo(customExpoConfig);

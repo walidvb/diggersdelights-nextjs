@@ -30,5 +30,5 @@ type Link = {
     name: string,
   },
   group: number,
-  created_at: string,
+  createdAt: string,
 }

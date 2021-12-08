@@ -6,7 +6,7 @@ import createGroup from '../../src/api/db/createGroup';
 
 const token = process.env.TELEGRAM_TOKEN
 
-console.log('starting bot')
+console.log('starting bot', token)
 const bot = new Bot(token);
 
 bot.command("share", async (ctx: Context) => {
