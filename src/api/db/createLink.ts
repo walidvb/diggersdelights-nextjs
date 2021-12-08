@@ -3,6 +3,7 @@ import { collection, increment } from "@firebase/firestore";
 import { db } from './client';
 import { addDoc, doc, updateDoc, setDoc } from 'firebase/firestore';
 import getLinkMetadata from '../helpers/getLinkMetadata';
+import { Link } from '../../..';
 
 const updateGroup = async (user: User, group: Chat, newLinksCount) => {
   const groupDoc = doc(db, 'groups', `${group.id}`)

@@ -2,6 +2,7 @@ import { Chat, User } from '@grammyjs/types'
 import { doc, FieldValue } from '@firebase/firestore'; // for creating a pointer to our Document
 import { db } from './client';
 import { setDoc } from 'firebase/firestore';
+import { Group } from '../../..';
 
 
 

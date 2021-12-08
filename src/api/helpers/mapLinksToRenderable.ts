@@ -1,3 +1,5 @@
+import { Link } from "../../.."
+
 type RenderableLink = {
   media: { 
       image_url: string, 
@@ -18,6 +20,7 @@ export const mapLinksToRenderable = (links: Link[]): RenderableLink[] => {
     },
     metadata: {
       createdAt: link.createdAt || null,
+      user: link.user,
     }
   }))
 }

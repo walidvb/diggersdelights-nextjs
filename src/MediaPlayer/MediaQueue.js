@@ -62,7 +62,7 @@ const Squares = ({ item }) => {
 const GridDateSeparator = ({ timestamp }) => {
   const [, copy] = timestamp
   return (
-    <View style={tw`col-span-full pt-2 mt-4 mb-2 border-t border-blue-500 text-xl`}>
+    <View style={tw`w-[100%] pt-2 mt-4 mb-2 border-t border-blue-500 text-xl`}>
       {copy}
     </View>
   )
@@ -77,7 +77,7 @@ const DateSeparator = ({ timestamp }) => (
 const now = DateTime.now()
 
 const wrapperStyles = {
-  grid: 'grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-7 gap-x-4 gap-y-6',
+  grid: 'flex-row flex-wrap gap-x-4 gap-y-6',
   queue: 'divide-gray-400 mr-4 divide-y flex-shrink w-72 border border-gray-500',
 }
 
@@ -100,7 +100,7 @@ export function MediaQueue({
   ]
 
   return (
-    <View tw={wrapperStyles[type]}>
+    <View style={tw`${wrapperStyles[type]}`}>
       {queue.map((item) => {
         const interval = Interval.fromDateTimes(DateTime.fromISO(item.metadata.createdAt), now).length('days')
         const displayTime = intervals.find((stamp) => interval >= stamp[0])

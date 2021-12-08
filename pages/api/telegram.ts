@@ -5,6 +5,7 @@ import { createLink }  from '../../src/api/db'
 import createGroup from '../../src/api/db/createGroup';
 
 const token = process.env.TELEGRAM_TOKEN
+const baseUrl = process.env.BASE_URL
 
 console.log('starting bot', token)
 const bot = new Bot(token);
@@ -21,6 +22,14 @@ bot.command("share", async (ctx: Context) => {
   }
   await createLink({ urls, user, group })
   console.log('/share')
+})
+
+bot.command('play', async (ctx: Context) => {
+  console.log('play')
+  const { msg } = ctx
+  const { chat: group } = msg;
+  const url = `${baseUrl}/${group.id}`
+  ctx.reply(`Here's a link to have a listen! ${url}`)
 })
 
 bot.on('message:new_chat_members:me', async (ctx: Context) => {
