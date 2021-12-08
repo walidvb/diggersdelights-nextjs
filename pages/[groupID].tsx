@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import tw from 'twrnc';
 import axios from 'axios';
 import { mapLinksToRenderable } from '../src/api/helpers/mapLinksToRenderable';
+import getLinks from '../src/api/db/getLinks';
 
 export default function App({ links }) {
 
@@ -22,7 +23,7 @@ export default function App({ links }) {
 
 export const getServerSideProps = async ({ params }) => {
   const { groupID } = params
-  const { data: { links } } = await axios.get(`http://localhost:3000/api/links?groupID=${groupID}`) ;
+  const { links } = await getLinks(parseInt(groupID)) ;
   console.log(links, groupID)
   return { props: { links: mapLinksToRenderable(links) } };
 }
