@@ -4,9 +4,10 @@ import { DateTime } from 'luxon'
 
 import { useItemState, useMediaContext } from './createMediaContext'
 import MediaControls from './MediaControls'
-import { Image, View, Text } from 'react-native';
+import { Image, View, Text, Platform } from 'react-native';
 import tw from 'twrnc';
 import { useSectionnedByDate } from './useSectionnedByDate';
+import { SectionGrid } from 'react-native-super-grid'
 
 const ItemMini = ({ item, className }) => {
   const { media: { title, image_url }, metadata: { createdAt } } = item
@@ -39,8 +40,8 @@ const Squares = ({ item }) => {
   const { media: { image_url, title }, metadata: { createdAt,  user: { firstName } }, } = item
   const renderedDate = DateTime.fromISO(createdAt).toLocaleString({ month: 'long', day: 'numeric' })
   return (
-    <View style={tw`lg:max-w-1/5 max-w-1/2`}>
-      <View style={tw`relative group cursor-pointer`} onClick={() => play(item)}>
+    <View style={tw`flex-grow`}>
+      <View style={tw`relative group cursor-pointer mb-2`} onClick={() => play(item)}>
         <img src={image_url} style={tw`max-w-full h-auto`} />
         <MediaControls
           style={tw`absolute text-blue-600 object-center top-1/2 
@@ -96,6 +97,16 @@ export function MediaQueue({
 }){
   const { queue } = useMediaContext()
   const sections = useSectionnedByDate(queue)
+  if(Platform.OS !== 'web'){
+    return <SectionGrid
+      itemDimension={300}
+      spacing={12}
+      sections={sections}
+      renderItem={({ item }) => (<RenderMedia item={item} />)}
+      renderSectionHeader={({ section }) => (<RenderDateSeparator timestamp={section.title} />)}
+      style={tw`pl-0`}
+    />
+  }
   return (
     <View style={tw`${wrapperStyles[type]}`}>
       {
@@ -103,6 +114,7 @@ export function MediaQueue({
           const {title, data} = section
           return <React.Fragment key={title}>
             {withTimeSeparators && title && <RenderDateSeparator timestamp={title} />}
+            
              {data.map(item => <RenderMedia
              key={item.id}
               item={item}
