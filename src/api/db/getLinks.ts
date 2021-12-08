@@ -1,11 +1,12 @@
 import { doc } from '@firebase/firestore';
 import { db } from './client';
 import { getDoc } from '@firebase/firestore';
-import { Link } from '..';
+
 import { collection } from 'firebase/firestore';
 import { where } from '@firebase/firestore';
 import { query } from '@firebase/firestore';
 import { getDocs } from '@firebase/firestore';
+import { Link } from '../../../';
 
 
 const getLinks = async (groupID: number) => {
