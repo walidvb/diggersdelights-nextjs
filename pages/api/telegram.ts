@@ -13,9 +13,9 @@ const bot = new Bot(token);
 
 bot.command("share", async (ctx: Context) => {
   console.log('share', JSON.stringify(ctx))
-  ctx.sendChatAction('typing')
   const { msg } = ctx
   const { from: user, chat: group, entities, text } = msg;
+  ctx.api.sendChatAction(group.id, 'typing')
   console.log(entities)
   const urls = convertEntitiesToUrls(entities, text)
   if(!urls.length){
