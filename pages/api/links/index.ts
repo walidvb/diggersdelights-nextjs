@@ -8,8 +8,8 @@ import { getDocs } from '@firebase/firestore';
 
 
 const getLinks = async (req, res) => {
-  const groupID: number = -676856925
-  console.log('getLinks');
+  const groupID: number = parseInt(req.query.groupID) || -676856925
+  console.log(groupID)
   const linksRef = collection(db, 'links')
   const q = query(linksRef, where('group', '==', groupID))
   console.log('gotSnap');
@@ -18,7 +18,6 @@ const getLinks = async (req, res) => {
   const links = []
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
-    console.log(doc.id, " => ", doc.data());
     links.push(doc.data())
   });
 

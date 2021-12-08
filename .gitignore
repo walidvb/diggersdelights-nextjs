@@ -47,3 +47,5 @@ yarn-error.log*
 
 # Supabase
 .supabase
+
+.vercel
