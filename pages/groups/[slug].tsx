@@ -9,7 +9,7 @@ import getLinks from '../../src/api/db/getLinks';
 export default function App({ links }) {
 
   return (
-    <View style={tw`bg-gray-900 md:bg-gray-300`}>
+    <View style={tw`bg-gray-900 md:bg-gray-300 flex h-full`}>
       <MediaProvider list={links}>
         <View style={[tw`pb-16 mx-auto`, {
           maxWidth: 1200,
