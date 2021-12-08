@@ -24,6 +24,5 @@ export default function App({ links }) {
 export const getServerSideProps = async ({ params }) => {
   const { groupID } = params
   const { links } = await getLinks(parseInt(groupID)) ;
-  console.log(links, groupID)
   return { props: { links: mapLinksToRenderable(links) } };
 }

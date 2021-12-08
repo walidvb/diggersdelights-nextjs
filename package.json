@@ -4,6 +4,7 @@
     "axios": "^0.24.0",
     "expo": "^43.0.0",
     "firebase": "^9.6.0",
+    "firebase-admin": "^10.0.0",
     "grammy": "^1.5.0",
     "luxon": "^2.1.1",
     "next": "9.3.5",
@@ -30,7 +31,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "build": "next build",
-    "set-local-webhook": "curl https://api.telegram.org/bot5030092060:AAEMo-oULnKUnauU9z8UFfVS0Pa69VE5NfI/setWebhook?url=https://diggersdelights.vercel.app/api/telegram"
+    "set-local-webhook": "curl https://api.telegram.org/bot5030092060:AAEMo-oULnKUnauU9z8UFfVS0Pa69VE5NfI/setWebhook?url=https://cdd8-2804-14c-43-88e7-d4a9-24f6-a16f-63c1.ngrok.io/api/telegram"
   },
   "private": true
 }

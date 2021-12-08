@@ -1,17 +1,19 @@
-import { Chat, User } from '@grammyjs/types'
-import { collection, increment } from "@firebase/firestore";
-import { db } from './client';
-import { addDoc, doc, updateDoc, setDoc } from 'firebase/firestore';
-import getLinkMetadata from '../helpers/getLinkMetadata';
+import { Chat, User } from '@grammyjs/types';
 import { Link } from '../../..';
+import getLinkMetadata from '../helpers/getLinkMetadata';
+import { db } from './client';
+import admin from 'firebase-admin';
 
-const updateGroup = async (user: User, group: Chat, newLinksCount) => {
-  const groupDoc = doc(db, 'groups', `${group.id}`)
-  const usersCollection = collection(groupDoc, 'users')
-  const userDoc = doc(usersCollection, `${user.id}`)
-  await setDoc(userDoc, user)
-  await updateDoc(groupDoc, {
-    linksCount: increment(newLinksCount),
+const updateGroup = async (user: User, group: Chat, linksCountIncrement) => {
+  const groupDoc = db.collection('groups').doc(`${group.id}`)
+  const usersCollection = groupDoc.collection('users')
+  const userDoc = usersCollection.doc(`${user.username}`)
+  console.log("user, ", user, userDoc)
+  await userDoc.set(user)
+  console.log("added user")
+  // await userDoc.set(user)
+  await groupDoc.update({
+    linksCount: admin.firestore.FieldValue.increment(linksCountIncrement),
   })
   console.log('updated group')
 }
@@ -26,15 +28,19 @@ const createLink = async ({ user, urls, group }: {
     const meta = await getLinkMetadata(url)
     const link: Link = {
       url,
-      group: group.id,
+      group: {
+        id: group.id,
+        name: group.type === 'group' && group.title,
+      },
       user: {
         name: user.username,
+        firstName: user.first_name,
         id: user.id,
       },
       createdAt: new Date().toISOString(),
       meta,
     }
-    addDoc(collection(db, 'links'), link)
+    db.collection('links').add(link)
   })
 }
 

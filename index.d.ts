@@ -2,7 +2,6 @@ import { OembedData } from "oembed-parser"
 
 type Group = {
   id: number,
-  users: number[],
   meta: {
 
   },
@@ -16,8 +15,12 @@ type Link = {
   user: {
     id: number,
     name: string,
+    firstName: string,
   },
-  group: number,
+  group: {
+    id: number,
+    name?: string,
+  },
   createdAt: string,
 }
 
