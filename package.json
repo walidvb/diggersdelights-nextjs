@@ -15,6 +15,7 @@
     "react-native": "0.64.3",
     "react-native-web": "0.17.1",
     "react-player": "^2.9.0",
+    "slugify": "^1.6.3",
     "twrnc": "^2.1.1"
   },
   "devDependencies": {

@@ -10,7 +10,9 @@ export default function App({ links }) {
 
   return (
     <MediaProvider list={links}>
-      <View style={tw`pb-16 container mx-auto`}>
+      <View style={[tw`pb-16 mx-auto`, {
+        maxWidth: 800,
+      }]}>
         <MediaQueue
           withTimeSeparators
           type="grid"

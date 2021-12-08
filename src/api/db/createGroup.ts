@@ -1,4 +1,5 @@
 import { Chat } from '@grammyjs/types';
+import slugify from 'slugify';
 import { Group } from '../../..';
 import { db } from './client';
 
@@ -9,10 +10,11 @@ import { db } from './client';
 const createGroup = async ({ group }: {
   group: Chat,
 }) => {
-
-  const groupDoc = db.collection('groups').doc(`${group.type !== 'private' ? group.title : group.id}`);
+  const id = group.type !== 'private' ? slugify(group.title) : `${group.id}`
+  const groupDoc = db.collection('groups').doc(`${id}`);
   const groupToCreate: Group = {
     id: group.id,
+    slug: id,
     meta: {
       ...group,
     },

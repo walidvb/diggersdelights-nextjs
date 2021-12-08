@@ -2,6 +2,7 @@ import { OembedData } from "oembed-parser"
 
 type Group = {
   id: number,
+  slug: string,
   meta: {
 
   },
@@ -20,6 +21,7 @@ type Link = {
   group: {
     id: number,
     name?: string,
+    slug: string,
   },
   createdAt: string,
 }
