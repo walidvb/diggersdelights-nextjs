@@ -13,6 +13,7 @@ const bot = new Bot(token);
 
 bot.command("share", async (ctx: Context) => {
   console.log('share', JSON.stringify(ctx))
+  ctx.sendChatAction('typing')
   const { msg } = ctx
   const { from: user, chat: group, entities, text } = msg;
   console.log(entities)
@@ -33,19 +34,24 @@ bot.command('play', async (ctx: Context) => {
   const { chat: group } = msg;
   const slug = slugifyGroup(group)
   const url = `${baseUrl}/groups/${slug}`
-  ctx.reply(`Here's a link to have a listen! ${url}`)
+  ctx.reply(`Here's a link to have a listen! ${urlToGroup(group)}`)
 })
 
 bot.on('message:group_chat_created', async (ctx: Context) => {
   console.log('message:group_chat_created', JSON.stringify(ctx))
   const { chat: group } = ctx
   await createGroup({ group })
+  ctx.reply(`Here's a link to have a listen! ${urlToGroup(group)}`)
 }
 )
 bot.on('message:new_chat_members:me', async (ctx: Context) => {
   console.log('message:new_chat_members:me', JSON.stringify(ctx))
   const { chat: group } = ctx
   await createGroup({ group })
+  ctx.reply(`Bot has been added!`)
+  ctx.reply(`Type /share followed by a link to share`)
+  ctx.reply(`Type /play to view the library, which will be available at ${urlToGroup(group)}`)
+  
 })
 
 
@@ -58,3 +64,5 @@ const convertEntitiesToUrls = (entities: MessageEntity[], text: string): string[
     return text.slice(offset, offset + length)
   }).filter(Boolean)
 }
+
+const urlToGroup = (group) => `${baseUrl}/groups/${slugifyGroup(group)}`
