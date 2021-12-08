@@ -28,5 +28,4 @@ try{
 
 const db = admin.firestore();
 
-
 export { db }

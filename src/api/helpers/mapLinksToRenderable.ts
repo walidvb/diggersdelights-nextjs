@@ -1,14 +1,4 @@
-import { Link } from "../../.."
-
-type RenderableLink = {
-  media: { 
-      image_url: string, 
-      title: string 
-  }, 
-  metadata: { 
-    createdAt: string
-  }
-}
+import { Link, RenderableLink } from "../../.."
 
 export const mapLinksToRenderable = (links: Link[]): RenderableLink[] => {
   return links.map(link => ({

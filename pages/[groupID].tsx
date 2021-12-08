@@ -23,6 +23,6 @@ export default function App({ links }) {
 
 export const getServerSideProps = async ({ params }) => {
   const { groupID } = params
-  const { links } = await getLinks(parseInt(groupID))
+  const { links } = await getLinks(parseInt(groupID)) ;
   return { props: { links: mapLinksToRenderable(links) } };
 }
