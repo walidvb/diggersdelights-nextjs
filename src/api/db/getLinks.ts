@@ -7,7 +7,7 @@ const getLinks = async (groupID: number) => {
     console.log('rproim', groupID)
     db
       .collection('links')
-      .where('group', '==', groupID)
+      .where('group.id', '==', groupID)
       .get()
       .then((querySnapshot) => {
         const result = []

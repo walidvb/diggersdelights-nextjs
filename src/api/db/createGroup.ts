@@ -10,10 +10,9 @@ const createGroup = async ({ group }: {
   group: Chat,
 }) => {
 
-  const groupDoc = db.collection('links').doc(`${group.id}`)
+  const groupDoc = db.collection('groups').doc(`${group.type !== 'private' ? group.title : group.id}`);
   const groupToCreate: Group = {
     id: group.id,
-    users: [],
     meta: {
       ...group,
     },

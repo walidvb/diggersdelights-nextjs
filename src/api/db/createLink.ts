@@ -4,13 +4,16 @@ import getLinkMetadata from '../helpers/getLinkMetadata';
 import { db } from './client';
 import admin from 'firebase-admin';
 
-const updateGroup = async (user: User, group: Chat, newLinksCount) => {
+const updateGroup = async (user: User, group: Chat, linksCountIncrement) => {
   const groupDoc = db.collection('groups').doc(`${group.id}`)
   const usersCollection = groupDoc.collection('users')
-  const userDoc = usersCollection.doc(`${user.id}`)
+  const userDoc = usersCollection.doc(`${user.username}`)
+  console.log("user, ", user, userDoc)
   await userDoc.set(user)
+  console.log("added user")
+  // await userDoc.set(user)
   await groupDoc.update({
-    linksCount: admin.firestore.FieldValue.increment(newLinksCount),
+    linksCount: admin.firestore.FieldValue.increment(linksCountIncrement),
   })
   console.log('updated group')
 }
@@ -25,9 +28,13 @@ const createLink = async ({ user, urls, group }: {
     const meta = await getLinkMetadata(url)
     const link: Link = {
       url,
-      group: group.id,
+      group: {
+        id: group.id,
+        name: group.type === 'group' && group.title,
+      },
       user: {
         name: user.username,
+        firstName: user.first_name,
         id: user.id,
       },
       createdAt: new Date().toISOString(),

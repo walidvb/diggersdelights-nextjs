@@ -11,7 +11,7 @@ console.log('starting bot', token)
 const bot = new Bot(token);
 
 bot.command("share", async (ctx: Context) => {
-  console.log('share')
+  console.log('share', JSON.stringify(ctx))
   const { msg } = ctx
   const { from: user, chat: group, entities, text } = msg;
   console.log(entities)
@@ -32,8 +32,14 @@ bot.command('play', async (ctx: Context) => {
   ctx.reply(`Here's a link to have a listen! ${url}`)
 })
 
+bot.on('message:group_chat_created', async (ctx: Context) => {
+  console.log('message:group_chat_created', JSON.stringify(ctx))
+  const { chat: group } = ctx
+  await createGroup({ group })
+}
+)
 bot.on('message:new_chat_members:me', async (ctx: Context) => {
-  console.log('message:new_chat_members:me')
+  console.log('message:new_chat_members:me', JSON.stringify(ctx))
   const { chat: group } = ctx
   await createGroup({ group })
 })
