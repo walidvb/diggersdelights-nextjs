@@ -1,18 +1,19 @@
 import React from 'react'
 
-import { DateTime, Interval } from 'luxon'
+import { DateTime } from 'luxon'
 
 import { useItemState, useMediaContext } from './createMediaContext'
 import MediaControls from './MediaControls'
-import { View } from 'react-native';
+import { Image, View, Text } from 'react-native';
 import tw from 'twrnc';
+import { useSectionnedByDate } from './useSectionnedByDate';
 
 const ItemMini = ({ item, className }) => {
   const { media: { title, image_url }, metadata: { createdAt } } = item
   const { isPlaying } = useItemState(item)
   const renderedDate = DateTime.fromISO(createdAt).toLocaleString({ month: 'long', day: 'numeric' })
   return (
-    <View tw={`flex items-center group ${className}`}>
+    <View style={tw`flex items-center group ${className}`}>
       <View style={[tw`relative w-12 h-12 bg-center bg-cover flex-shrink-0 mr-2`, { backgroundImage: `url(${image_url})` }]} >
         <MediaControls
           style={tw`absolute object-center group-hover:opacity-100 ${!isPlaying && 'opacity-0'}`}
@@ -24,7 +25,7 @@ const ItemMini = ({ item, className }) => {
         <View style={tw`text-gray-600 text-xs italic`}>
           {renderedDate}
         </View>
-        <View tw={`mr-2 text-sm ${isPlaying && 'font-bold'}`}>
+        <View style={tw`mr-2 text-sm ${isPlaying && 'font-bold'}`}>
           { title }
         </View>
       </View>
@@ -34,12 +35,13 @@ const ItemMini = ({ item, className }) => {
 
 const Squares = ({ item }) => {
   const { isPlaying, play } = useItemState(item)
-  const { media: { image_url, title }, metadata: { createdAt } } = item
+  console.log(item)
+  const { media: { image_url, title }, metadata: { createdAt,  user: { firstName } }, } = item
   const renderedDate = DateTime.fromISO(createdAt).toLocaleString({ month: 'long', day: 'numeric' })
   return (
-    <View>
+    <View style={tw`lg:max-w-1/5 max-w-1/2`}>
       <View style={tw`relative group cursor-pointer`} onClick={() => play(item)}>
-        <img src={image_url} className="max-w-full h-auto" />
+        <img src={image_url} style={tw`max-w-full h-auto`} />
         <MediaControls
           style={tw`absolute text-blue-600 object-center top-1/2 
             left-1/2 transform -translate-x-1/2 -translate-y-1/2 group-hover:opacity-100 
@@ -49,11 +51,17 @@ const Squares = ({ item }) => {
           item={item}
         />
       </View>
-      <View style={tw`text-gray-600 text-xs italic`}>
+      <Text style={tw`text-gray-600 text-xs italic`}>
         {renderedDate}
-      </View>
-      <View tw={`mr-2 text-sm ${isPlaying && 'font-bold'}`}>
-        {title}
+        <Text style={tw`text-gray-600 text-xs italic`}>
+          &nbsp;by {firstName}
+        </Text>
+      </Text>
+      <View style={tw`mr-2 text-sm ${isPlaying && 'font-bold'}`}>
+        <Text style={tw`text-white text-lg ${isPlaying && 'font-bold'}`}>
+          {title}
+        </Text>
+
       </View>
     </View>
   )
@@ -62,19 +70,18 @@ const Squares = ({ item }) => {
 const GridDateSeparator = ({ timestamp }) => {
   const [, copy] = timestamp
   return (
-    <View style={tw`w-[100%] pt-2 mt-4 mb-2 border-t border-blue-500 text-xl`}>
+    <Text style={tw`w-[100%] pt-2 mt-4 mb-2 border-t text-white border-blue-500 text-xl`}>
       {copy}
-    </View>
+    </Text>
   )
 }
 
 const DateSeparator = ({ timestamp }) => (
-  <View style={tw`text-gray-600 pt-4 pb-1 px-1`}>
+  <Text style={tw`text-gray-600 pt-4 pb-1 px-1`}>
     {timestamp[1]}
-  </View>
+  </Text>
 )
 
-const now = DateTime.now()
 
 const wrapperStyles = {
   grid: 'flex-row flex-wrap gap-x-4 gap-y-6',
@@ -88,34 +95,21 @@ export function MediaQueue({
   withTimeSeparators,
 }){
   const { queue } = useMediaContext()
-
-  const intervals = [
-    [0, 'Today'],
-    [1, 'Last Week'],
-    [7, 'Last 2 Weeks'],
-    [30, 'Last Month'],
-    [90, 'Last 3 Months'],
-    [180, 'Last 6 Months'],
-    [365, 'Previous Year'],
-  ]
-
+  const sections = useSectionnedByDate(queue)
   return (
     <View style={tw`${wrapperStyles[type]}`}>
-      {queue.map((item) => {
-        const interval = Interval.fromDateTimes(DateTime.fromISO(item.metadata.createdAt), now).length('days')
-        const displayTime = intervals.find((stamp) => interval >= stamp[0])
-        if(displayTime){
-          intervals.splice(0, 1)
-        }
-        return (
-          <React.Fragment key={item.media.url}>
-            {withTimeSeparators && displayTime && <RenderDateSeparator timestamp={displayTime} />}
-            <RenderMedia
+      {
+        sections.map((section, index) => {
+          const {title, data} = section
+          return <React.Fragment key={title}>
+            {withTimeSeparators && title && <RenderDateSeparator timestamp={title} />}
+             {data.map(item => <RenderMedia
+             key={item.id}
               item={item}
-            />
+            />)}
           </React.Fragment>
-        )
-      })}
+        })
+      }
     </View>
   )
 }

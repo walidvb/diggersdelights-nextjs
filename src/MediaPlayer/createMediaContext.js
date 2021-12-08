@@ -98,10 +98,11 @@ export const {
   useContext: useMediaContext
 } = fabricateContext(({ list }) => {
   
-  const [state, dispatch] = useReducer(reducer, initialState({ list }))
+  const [state, dispatch] = useReducer(reducer, initialState({ list: [] }))
   
   useEffect(() => {
     dispatch({ type: 'NEW_LIST', payload: list})
+    console.log('new list', list)
   }, [list])
 
   const actions = useMemo(() => ({
