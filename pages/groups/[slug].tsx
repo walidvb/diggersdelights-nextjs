@@ -9,17 +9,15 @@ import getLinks from '../../src/api/db/getLinks';
 export default function App({ links }) {
 
   return (
-    <View style={tw`bg-gray-900 md:bg-gray-300 flex h-full`}>
+    <View style={tw`bg-gray-900 flex h-full`}>
       <MediaProvider list={links}>
-        <View style={[tw`pb-16 mx-auto`, {
-          maxWidth: 1200,
-        }]}>
+        <div className="container mx-auto pb-16">
           <MediaQueue
             withTimeSeparators
             type="grid"
           />
           <CurrentMediaPlayer style={[tw`bottom-1 right-1 border p-2 z-10 bg-white`, { position: 'fixed'}]} />
-        </View>
+        </div>
       </MediaProvider>
     </View>
   );
