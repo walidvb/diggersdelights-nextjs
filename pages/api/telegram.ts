@@ -15,12 +15,14 @@ bot.command("share", wrapInTryCatch(handleShare))
 bot.command('play', wrapInTryCatch(async (ctx: Context) => {
     const { msg } = ctx
     const { chat: group } = msg;
-    ctx.reply(`Here's a link to have a listen! ${urlToGroup(group)}`)
+    await ctx.reply(`Here's a link to have a listen!`)
+    await ctx.reply(`${urlToGroup(group)}`)
 }))
 bot.on('message:group_chat_created', wrapInTryCatch(handleNewGroup))
 bot.on('message:new_chat_members:me', wrapInTryCatch(handleNewGroup))
 bot.on('::url', wrapInTryCatch(handleMessageWithLink))
 bot.on('callback_query:data', wrapInTryCatch(handleCallbackQuery))
+
 export default webhookCallback(bot, 'express', undefined, 5_000)
 
 type wrapped = (ctx: Context) => void
