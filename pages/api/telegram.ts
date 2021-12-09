@@ -15,7 +15,7 @@ bot.command("share", async (ctx: Context) => {
   console.log('share', JSON.stringify(ctx))
   const { msg } = ctx
   const { from: user, chat: group, entities, text } = msg;
-  ctx.api.sendChatAction(group.id, 'typing')
+  ctx.api.sendChatAction(group.id, 'find_location')
   console.log(entities)
   const urls = convertEntitiesToUrls(entities, text)
   if(!urls.length){
@@ -55,7 +55,7 @@ bot.on('message:new_chat_members:me', async (ctx: Context) => {
 })
 
 
-export default webhookCallback(bot, 'express')
+export default webhookCallback(bot, 'express', undefined, 5_000)
 
 const convertEntitiesToUrls = (entities: MessageEntity[], text: string): string[] => {
   return entities.map(entity => {
