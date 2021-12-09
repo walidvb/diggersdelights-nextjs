@@ -4,16 +4,17 @@ import getLinkMetadata from '../helpers/getLinkMetadata';
 import { db } from './client';
 import admin from 'firebase-admin';
 import slugify from 'slugify';
+import { slugifyGroup } from '../../shared/helpers/slugifyGroup';
 
 const updateGroup = async (user: User, group: Chat, linksCountIncrement) => {
-  const groupSlug = group.type !== 'private' ? slugify(group.title) : `${group.id}`
+  const groupSlug = slugifyGroup(group)
+  console.log('updating: ', groupSlug, JSON.stringify(group))
   const groupDoc = db.collection('groups').doc(groupSlug)
   const usersCollection = groupDoc.collection('users')
   const userDoc = usersCollection.doc(`${user.username}`)
-  console.log("user, ", user, userDoc)
+  console.log("user, ", user)
   await userDoc.set(user)
-  console.log("added user")
-  // await userDoc.set(user)
+  console.log("added user, updating group:", groupDoc)
   await groupDoc.update({
     linksCount: admin.firestore.FieldValue.increment(linksCountIncrement),
   })
