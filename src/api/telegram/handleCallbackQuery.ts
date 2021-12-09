@@ -16,7 +16,7 @@ export const handleCallbackQuery = async (ctx: Context) => {
   try{
     await addLinkFromMsg(originalMsg, ctx)
   } catch(err){
-    
+    console.log('Error adding link: ', JSON.stringify(err, null, 2))
   }
-  ctx.api.deleteMessage(actionMsg.chat.id, actionMsg.message_id)
+  await ctx.api.deleteMessage(actionMsg.chat.id, actionMsg.message_id)
 }

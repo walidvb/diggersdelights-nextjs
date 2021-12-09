@@ -4,7 +4,6 @@ import { Message, MessageEntity } from '@grammyjs/types'
 
 export const addLinkFromMsg = async (msg: Message, ctx: Context) => {
   const { from: user, chat: group, entities, text, message_id: messageID } = msg;
-  ctx.api.sendChatAction(group.id, 'find_location');
   console.log(entities);
   const urls = convertEntitiesToUrls(entities, text);
   if (!urls.length) {
