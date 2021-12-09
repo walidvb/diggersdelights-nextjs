@@ -1,5 +1,5 @@
 
-import { MessageEntity } from '@grammyjs/types';
+import { MessageEntity, Chat } from '@grammyjs/types';
 import { Bot, Context, webhookCallback } from 'grammy';
 import { createLink }  from '../../src/api/db'
 import createGroup from '../../src/api/db/createGroup';
@@ -35,33 +35,33 @@ bot.command("share", async (ctx: Context) => {
 
 bot.command('play', async (ctx: Context) => {
   console.log('play')
-  const { msg } = ctx
-  const { chat: group } = msg;
-  const slug = slugifyGroup(group)
-  const url = `${baseUrl}/groups/${slug}`
-  ctx.reply(`Here's a link to have a listen! ${urlToGroup(group)}`)
+  try{
+    const { msg } = ctx
+    const { chat: group } = msg;
+    console.log(urlToGroup(group))
+    ctx.reply(`Here's a link to have a listen! ${urlToGroup(group)}`)
+  } catch(err){
+    console.log(err)
+    ctx.reply(`Error! ${JSON.stringify(err)}`)
+  }
 })
 
 bot.on('message:group_chat_created', async (ctx: Context) => {
   console.log('message:group_chat_created', JSON.stringify(ctx))
-  const { chat: group } = ctx
   try{
+    const { chat: group } = ctx
     await createGroup({ group })
+    handleIntro(ctx)
   } catch (err) {
     console.log(err)
     ctx.reply(`Error! ${JSON.stringify(err)}`)
   }
-  ctx.reply(`Here's a link to have a listen! ${urlToGroup(group)}`)
 }
 )
 bot.on('message:new_chat_members:me', async (ctx: Context) => {
   console.log('message:new_chat_members:me', JSON.stringify(ctx))
   try{
-    const { chat: group } = ctx
-    await createGroup({ group })
-    ctx.reply(`Bot has been added!`)
-    ctx.reply(`Type /share followed by a link to share`)
-    ctx.reply(`Type /play to view the library, which will be available at ${urlToGroup(group)}`)
+    handleIntro(ctx)
   } catch (err) {
     console.log(err)
     ctx.reply(`Error! ${JSON.stringify(err)}`)
@@ -79,4 +79,12 @@ const convertEntitiesToUrls = (entities: MessageEntity[], text: string): string[
   }).filter(Boolean)
 }
 
-const urlToGroup = (group) => `${baseUrl}/groups/${slugifyGroup(group)}`
+const handleIntro = async (ctx: Context) => {
+  const { chat: group } = ctx
+  await createGroup({ group })
+  ctx.reply(`Bot has been added!`)
+  ctx.reply(`Type /share followed by a link to share`)
+  ctx.reply(`Type /play to view the library, which will be available at ${urlToGroup(group)}`)
+}
+
+const urlToGroup = (group: Chat) => `${baseUrl}/groups/${slugifyGroup(group)}`
