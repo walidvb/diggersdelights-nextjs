@@ -26,7 +26,7 @@ const Media = ({
   const { isPlaying, play, pause, progressed } = useItemState(item)
 
   const { media, seekedTo } = item
-  const { url, image_url, embed_url } = media
+  const { url, image_url, embed_url, html } = media
   
   useEffect(() => { if(isPlaying){ setDisplayThumb(false) } }, [isPlaying])
   useEffect(() => {
@@ -37,6 +37,11 @@ const Media = ({
   }, [isPlaying, seekedTo, player])
 
   if (!ReactPlayer.canPlay(url)) {
+    if(html){
+      return <View tw={style}>
+        <div dangerouslySetInnerHTML={{ __html: html }} />
+      </View>
+    }
     if(embed_url){
       return <View tw={style}>
         <iframe
@@ -76,20 +81,6 @@ const Media = ({
 };
 
 export default Media
-
-const RE_YOUTUBE = /(?:v=|youtu\.be\/|list=)([\w-]{10,12})/;
-function getThumb(url) {
-  let video_id = null;
-  const match = RE_YOUTUBE.exec(url);
-  if (match) {
-    video_id = match[1];
-  }
-
-  if (video_id) {
-    return `http://img.youtube.com/vi/${video_id}/hqdefault.jpg`;
-  }
-}
-
 
 const YoutubePlayIcon = ({ className }) => {
   return <View style={tw`absolute inset-0 flex items-center justify-center  `}>
