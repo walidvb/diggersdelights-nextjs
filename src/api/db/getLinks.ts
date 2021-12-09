@@ -10,7 +10,6 @@ const getLinks = async (slug: string) => {
       .get()
       .then((querySnapshot) => {
         const result = []
-        console.log("resutl", querySnapshot)
         querySnapshot.forEach((doc) => {
           result.push(doc.data())
           console.log(doc.data())

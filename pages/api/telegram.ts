@@ -15,7 +15,7 @@ bot.command("share", async (ctx: Context) => {
   console.log('share', JSON.stringify(ctx))
   try{
     const { msg } = ctx
-    const { from: user, chat: group, entities, text } = msg;
+    const { from: user, chat: group, entities, text, message_id: messageID } = msg;
     ctx.api.sendChatAction(group.id, 'find_location')
     console.log(entities)
     const urls = convertEntitiesToUrls(entities, text)
@@ -24,7 +24,7 @@ bot.command("share", async (ctx: Context) => {
       ctx.reply(`Please share a link\nPS: I saw this: ${JSON.stringify({urls, entities})}`)
       return
     }
-    await createLink({ urls, user, group })
+    await createLink({ urls, user, group, messageID })
     ctx.reply('Thanks for sharing!')
   } catch(err){
     console.log(err)

@@ -9,7 +9,6 @@ const getGroups = async () => {
       .get()
       .then((querySnapshot) => {
         const result = []
-        console.log("resutl", querySnapshot)
         querySnapshot.forEach((doc) => {
           result.push(doc.data())
         })
