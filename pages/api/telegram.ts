@@ -13,18 +13,23 @@ const bot = new Bot(token);
 
 bot.command("share", async (ctx: Context) => {
   console.log('share', JSON.stringify(ctx))
-  const { msg } = ctx
-  const { from: user, chat: group, entities, text } = msg;
-  ctx.api.sendChatAction(group.id, 'find_location')
-  console.log(entities)
-  const urls = convertEntitiesToUrls(entities, text)
-  if(!urls.length){
-    console.log(urls)
-    ctx.reply(`Please share a link\nPS: I saw this: ${JSON.stringify({urls, entities})}`)
-    return
+  try{
+    const { msg } = ctx
+    const { from: user, chat: group, entities, text } = msg;
+    ctx.api.sendChatAction(group.id, 'find_location')
+    console.log(entities)
+    const urls = convertEntitiesToUrls(entities, text)
+    if(!urls.length){
+      console.log(urls)
+      ctx.reply(`Please share a link\nPS: I saw this: ${JSON.stringify({urls, entities})}`)
+      return
+    }
+    await createLink({ urls, user, group })
+    ctx.reply('Thanks for sharing!')
+  } catch(err){
+    console.log(err)
+    ctx.reply(`Error! ${JSON.stringify(err)}`)
   }
-  await createLink({ urls, user, group })
-  ctx.reply('Thanks for sharing!')
   console.log('/share')
 })
 
@@ -40,18 +45,27 @@ bot.command('play', async (ctx: Context) => {
 bot.on('message:group_chat_created', async (ctx: Context) => {
   console.log('message:group_chat_created', JSON.stringify(ctx))
   const { chat: group } = ctx
-  await createGroup({ group })
+  try{
+    await createGroup({ group })
+  } catch (err) {
+    console.log(err)
+    ctx.reply(`Error! ${JSON.stringify(err)}`)
+  }
   ctx.reply(`Here's a link to have a listen! ${urlToGroup(group)}`)
 }
 )
 bot.on('message:new_chat_members:me', async (ctx: Context) => {
   console.log('message:new_chat_members:me', JSON.stringify(ctx))
-  const { chat: group } = ctx
-  await createGroup({ group })
-  ctx.reply(`Bot has been added!`)
-  ctx.reply(`Type /share followed by a link to share`)
-  ctx.reply(`Type /play to view the library, which will be available at ${urlToGroup(group)}`)
-  
+  try{
+    const { chat: group } = ctx
+    await createGroup({ group })
+    ctx.reply(`Bot has been added!`)
+    ctx.reply(`Type /share followed by a link to share`)
+    ctx.reply(`Type /play to view the library, which will be available at ${urlToGroup(group)}`)
+  } catch (err) {
+    console.log(err)
+    ctx.reply(`Error! ${JSON.stringify(err)}`)
+  }
 })
 
 
