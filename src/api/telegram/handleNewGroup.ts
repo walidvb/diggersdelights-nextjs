@@ -3,6 +3,7 @@ import createGroup from '../db/createGroup';
 import { urlToGroup } from './urlToGroup';
 
 export const handleNewGroup = async (ctx: Context) => {
+  console.log('handleNewGroup');
   const { chat: group } = ctx;
   await createGroup({ group });
   ctx.reply(`Bot has been added!`);

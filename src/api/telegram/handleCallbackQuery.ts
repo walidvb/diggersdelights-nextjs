@@ -2,6 +2,7 @@ import { Context } from 'grammy';
 import { addLinkFromMsg } from './addLinkFromMsg';
 
 export const handleCallbackQuery = async (ctx: Context) => {
+  console.log("handleCallbackQuery")
   const { msg: actionMsg, update: { callback_query } } = ctx
   const { data, message: { reply_to_message: originalMsg } } = callback_query
   console.log("data", data)
