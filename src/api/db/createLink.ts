@@ -49,8 +49,8 @@ const createLink = async ({ user, urls, group, messageID, text }: {
       },
       user: {
         name: user.username || `${user.first_name}${user.last_name}`,
-        firstName: user.first_name,
-        lastName: user.last_name,
+        firstName: user.first_name || 'Anonymous',
+        lastName: user.last_name || 'Anonymous',
         id: user.id,
       },
       createdAt: new Date().toISOString(),
