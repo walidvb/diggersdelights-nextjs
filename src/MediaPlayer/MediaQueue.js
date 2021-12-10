@@ -97,7 +97,7 @@ export function MediaQueue({
 }){
   const { queue } = useMediaContext()
   const sections = useSectionnedByDate(queue)
-  if(Platform.OS !== 'web'){
+  if(true || Platform.OS !== 'web'){
     return <SectionGrid
       itemDimension={300}
       spacing={12}
