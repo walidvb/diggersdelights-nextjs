@@ -9,7 +9,7 @@ const GroupItem = ({ group }: { group: Group }) => {
   const router = useRouter()
   const { slug } = router.query
   const isActive = slug === group.slug
-  return <Link href={group.slug}>
+  return <Link href={`/groups/${group.slug}`}>
     <a>
       <div className={`hover:bg-primary rounded-sm ${isActive && 'bg-primary'}`}>
           <Text style={tw`text-white p-2`}>{group.meta.title}</Text>

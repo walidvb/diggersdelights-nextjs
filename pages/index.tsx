@@ -3,16 +3,22 @@ import Link from 'next/link';
 import { View } from 'react-native';
 import tw from 'twrnc';
 import getGroups from '../src/api/db/getGroups';
+import Page from '../src/shared/layout/Page';
+import { Text } from 'react-native';
 
 export default function App({ groups }) {
 
   return (
-    <View style={[tw`mx-auto`, { maxWidth: 800 }]}>
-      <h1>Welcome back!</h1>
-      {groups.map(group => (<Link key={group.id} href={`groups/${group.slug}`}>
-        <a>{group.meta.title}</a>
-      </Link>))}
-    </View>
+    <Page groups={groups}>
+        <View style={tw`items-center pt-16`}>
+          <Text style={tw`text-4xl text-white mb-2`}>
+            Welcome to Diggers Delights version X!
+          </Text>
+          <Text style={tw`text-xl text-white`}>
+            Maybe the last one.
+          </Text>
+        </View>
+    </Page>
     
   );
 }
