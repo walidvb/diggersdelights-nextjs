@@ -12,6 +12,15 @@ console.log('starting bot', token)
 const bot = new Bot(token);
 
 bot.command("share", wrapInTryCatch(handleShare))
+bot.command("help", wrapInTryCatch(async (ctx: Context) => {
+  await ctx.reply([
+    'I help keeping a tab on all the marvelous links you guys share with me!',
+    'Any time you send a link in this chat, I\'ll ask you if you want to save it. If you do, it will be available in the group\'s dedicated link.',
+    'You can type:',
+    '/share https://youtube.com/watch?v=dQw4w9WgXcQ – to share a link',
+    '/play – to get the link to view all posts',
+  ].join('\n'))
+}))
 bot.command('play', wrapInTryCatch(async (ctx: Context) => {
     const { msg } = ctx
     const { chat: group } = msg;
