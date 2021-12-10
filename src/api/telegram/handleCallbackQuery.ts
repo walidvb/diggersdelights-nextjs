@@ -12,7 +12,11 @@ export const handleCallbackQuery = async (ctx: Context) => {
     return
   }
   console.log("going here?!?")
-  await ctx.editMessageText(`Cool, saving...`)
+  try{
+    await ctx.editMessageText(`Cool, saving...`)
+  } catch(err){
+    console.log('Error editing message: ', JSON.stringify(err, null, 2))
+  }
   try{
     await addLinkFromMsg(originalMsg, ctx)
   } catch(err){
