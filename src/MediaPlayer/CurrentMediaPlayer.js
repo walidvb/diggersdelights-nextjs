@@ -10,12 +10,14 @@ import { View } from 'react-native';
 import tw from 'twrnc';
 
 const DefaultDetails = ({ item }) => {
-  const { metadata: { createdAt } } = item
+  const { metadata: { createdAt, user: { firstName } } } = item
   const renderedDate = DateTime.fromISO(createdAt).toLocaleString({ month: 'long', day: 'numeric' })
   return (
     <View>
-      <View style={tw`italics text-gray-600`}>{renderedDate}</View>
-      {item.media.title}
+      <View style={tw`italics text-gray-600`}>{renderedDate} by {firstName}</View>
+      <a href={item.media.url} target="_blank">
+        {item.media.title}
+      </a>
     </View>
   )
 }
