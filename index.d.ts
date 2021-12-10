@@ -23,6 +23,7 @@ type Link = {
     id: number,
     name: string,
     firstName: string,
+    lastName: string,
   },
   group: {
     id: number,

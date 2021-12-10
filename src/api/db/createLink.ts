@@ -9,7 +9,7 @@ const updateGroup = async (user: User, group: Chat, linksCountIncrement) => {
   console.log('updating: ', groupSlug, JSON.stringify(group))
   const groupRef = db.collection('groups').doc(groupSlug)
   const usersCollection = groupRef.collection('users')
-  const userDoc = usersCollection.doc(`${user.username}`)
+  const userDoc = usersCollection.doc(`${user.username || user.id}`)
   console.log("user, ", user)
   await userDoc.set(user)
   console.log("added user, updating group:", groupRef)
@@ -48,8 +48,9 @@ const createLink = async ({ user, urls, group, messageID, text }: {
         slug: groupSlug,
       },
       user: {
-        name: user.username,
+        name: user.username || `${user.first_name}${user.last_name}`,
         firstName: user.first_name,
+        lastName: user.last_name,
         id: user.id,
       },
       createdAt: new Date().toISOString(),
