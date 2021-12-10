@@ -14,7 +14,7 @@ const GroupItem = ({ group }: { group: Group }) => {
     <a>
       <div className={`hover:bg-primary p-2 rounded-sm ${isActive && 'bg-primary'} flex-col flex`}>
           <Text style={tw`text-white`}>{group.meta.title}</Text>
-          <Text style={tw`text-gray-400 text-xs`}>{group.linksCount} links shared</Text>
+          <Text style={tw`text-gray-400 text-xs`}>{group.meta.linksCount} links shared</Text>
         </div>
     </a>
   </Link>
