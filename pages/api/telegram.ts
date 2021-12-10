@@ -22,6 +22,9 @@ bot.on('message:group_chat_created', wrapInTryCatch(handleNewGroup))
 bot.on('message:new_chat_members:me', wrapInTryCatch(handleNewGroup))
 bot.on('::url', wrapInTryCatch(handleMessageWithLink))
 bot.on('callback_query:data', wrapInTryCatch(handleCallbackQuery))
+bot.on('message', wrapInTryCatch(async (ctx: Context) => {
+  console.log('message', JSON.stringify(ctx.msg, null, 2))
+}))
 
 export default webhookCallback(bot, 'express', undefined, 5_000)
 

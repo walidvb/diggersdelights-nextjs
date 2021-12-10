@@ -9,17 +9,19 @@ const GroupItem = ({ group }: { group: Group }) => {
   const router = useRouter()
   const { slug } = router.query
   const isActive = slug === group.slug
+  console.log(group)
   return <Link href={`/groups/${group.slug}`}>
     <a>
-      <div className={`hover:bg-primary rounded-sm ${isActive && 'bg-primary'}`}>
-          <Text style={tw`text-white p-2`}>{group.meta.title}</Text>
+      <div className={`hover:bg-primary p-2 rounded-sm ${isActive && 'bg-primary'} flex-col flex`}>
+          <Text style={tw`text-white`}>{group.meta.title}</Text>
+          <Text style={tw`text-gray-400 text-xs`}>{group.linksCount} links shared</Text>
         </div>
     </a>
   </Link>
 }
 
 const GroupList = ({ groups }: { groups: Group[]}) => {
-  return <View style={tw`mr-4 px-4`}>
+  return <View style={tw`mr-12 px-4 min-w-[200px]`}>
     <Text style={tw`mt-8 mb-4 ml-2 text-white`}>All Groups</Text>
     {groups.map(group => <GroupItem key={group.id} group={group} />)}
   </View>

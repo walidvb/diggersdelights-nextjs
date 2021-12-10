@@ -19,6 +19,8 @@ const createGroup = async ({ group }: {
     // @ts-ignore
     meta: {
       ...group,
+      linksCount: 0,
+      usersCount: 0,
     },
     created_at: new Date().toISOString(),
   }

@@ -1,22 +1,26 @@
 import { Chat, User } from '@grammyjs/types';
 import { Link } from '../../..';
+import { slugifyGroup } from '../../shared/helpers/slugifyGroup';
 import getLinkMetadata from '../helpers/getLinkMetadata';
 import { db } from './client';
-import admin from 'firebase-admin';
-import slugify from 'slugify';
-import { slugifyGroup } from '../../shared/helpers/slugifyGroup';
 
 const updateGroup = async (user: User, group: Chat, linksCountIncrement) => {
   const groupSlug = slugifyGroup(group)
   console.log('updating: ', groupSlug, JSON.stringify(group))
-  const groupDoc = db.collection('groups').doc(groupSlug)
-  const usersCollection = groupDoc.collection('users')
+  const groupRef = db.collection('groups').doc(groupSlug)
+  const usersCollection = groupRef.collection('users')
   const userDoc = usersCollection.doc(`${user.username}`)
   console.log("user, ", user)
   await userDoc.set(user)
-  console.log("added user, updating group:", groupDoc)
-  await groupDoc.update({
-    linksCount: admin.firestore.FieldValue.increment(linksCountIncrement),
+  console.log("added user, updating group:", groupRef)
+  const groupSnapshot = await groupRef.get()
+  const groupDoc = groupSnapshot.data()
+  await groupDoc.set({
+    ...groupDoc,
+    meta: {
+      ...groupDoc.meta,
+      linksCount: groupDoc.meta.linksCount + linksCountIncrement,
+    }
   })
   console.log('updated group')
 }

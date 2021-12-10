@@ -5,6 +5,8 @@ type Group = {
   slug: string,
   meta: {
     title: string,
+    usersCount?: number,
+    linksCount: number,
   },
   created_at: string,
 }
