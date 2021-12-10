@@ -16,6 +16,7 @@ const createGroup = async ({ group }: {
   const groupToCreate: Group = {
     id: group.id,
     slug: id,
+    // @ts-ignore
     meta: {
       ...group,
     },
