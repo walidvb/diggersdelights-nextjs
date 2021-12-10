@@ -1,4 +1,3 @@
-import { createLink } from '../db';
 import { Context } from 'grammy';
 import { addLinkFromMsg } from './addLinkFromMsg';
 

@@ -6,7 +6,7 @@ export const addLinkFromMsg = async (msg: Message, ctx: Context) => {
   const { from: user, chat: group, entities, text, message_id: messageID } = msg;
   console.log(entities);
   const urls = convertEntitiesToUrls(entities, text);
-  await createLink({ urls, user, group, messageID });
+  await createLink({ urls, user, group, messageID, text });
   ctx.reply('Thanks for sharing!');
 };
 

@@ -25,11 +25,12 @@ const updateGroup = async (user: User, group: Chat, linksCountIncrement) => {
   console.log('updated group')
 }
 
-const createLink = async ({ user, urls, group, messageID }: {
+const createLink = async ({ user, urls, group, messageID, text }: {
   user: User,
   urls: string[],
   group: Chat,
-  messageID: number
+  messageID: number,
+  text: string,
 }) => {
   const groupSlug = slugifyGroup(group)
   urls.forEach(async (url, i) => {
@@ -37,6 +38,10 @@ const createLink = async ({ user, urls, group, messageID }: {
     const meta = await getLinkMetadata(url)
     const link: Link = {
       url,
+      message: {
+        id: messageID,
+        text,
+      },
       group: {
         id: group.id,
         name: group.type === 'group' && group.title,

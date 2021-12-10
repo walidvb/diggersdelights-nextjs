@@ -15,6 +15,10 @@ type Group = {
 type Link = {
   url: string,
   meta?: OembedData,
+  message: {
+    id: number,
+    text: string,
+  },
   user: {
     id: number,
     name: string,
