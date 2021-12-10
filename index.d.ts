@@ -4,7 +4,7 @@ type Group = {
   id: number,
   slug: string,
   meta: {
-
+    title: string,
   },
   created_at: string,
 }
