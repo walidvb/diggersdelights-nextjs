@@ -5,7 +5,7 @@ const getGroups = async () => {
   return new Promise<{ groups: Group[] }>(async (resolve, reject) => {
     db
       .collection('groups')
-      .where('linksCount', '>', 0)
+      .where('meta.linksCount', '>', 0)
       .get()
       .then((querySnapshot) => {
         const result = []
