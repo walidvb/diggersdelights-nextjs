@@ -14,8 +14,8 @@ const updateGroup = async (user: User, group: Chat, linksCountIncrement) => {
   await userDoc.set(user)
   console.log("added user, updating group:", groupRef)
   const groupSnapshot = await groupRef.get()
-  const groupDoc = groupSnapshot.data()
-  await groupDoc.set({
+  const groupDoc = await groupSnapshot.data()
+  await groupRef.set({
     ...groupDoc,
     meta: {
       ...groupDoc.meta,

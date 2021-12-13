@@ -24,8 +24,7 @@ bot.command("help", wrapInTryCatch(async (ctx: Context) => {
 bot.command('play', wrapInTryCatch(async (ctx: Context) => {
     const { msg } = ctx
     const { chat: group } = msg;
-    await ctx.reply(`Here's a link to have a listen!`)
-    await ctx.reply(`${urlToGroup(group)}`)
+    await ctx.reply(`Here's a link to have a listen!\n${urlToGroup(group)}`)
 }))
 bot.on('message:group_chat_created', wrapInTryCatch(handleNewGroup))
 bot.on('message:new_chat_members:me', wrapInTryCatch(handleNewGroup))

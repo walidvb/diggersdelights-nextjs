@@ -3,9 +3,10 @@ import { addLinkFromMsg } from './addLinkFromMsg';
 
 export const handleCallbackQuery = async (ctx: Context) => {
   console.log("handleCallbackQuery")
+  console.log(ctx)
   const { msg: actionMsg, update: { callback_query } } = ctx
   const { data, message: { reply_to_message: originalMsg } } = callback_query
-  console.log("data", data)
+  console.log("data", JSON.stringify(originalMsg, null, 2))
   if (data === 'No') {
     await ctx.editMessageText(`Ok, skipping...`)
     await ctx.api.deleteMessage(actionMsg.chat.id, actionMsg.message_id)
