@@ -11,4 +11,5 @@ export const handleShare = async (ctx: Context) => {
     return;
   }
   await addLinkFromMsg(msg, ctx)
+  ctx.reply('Thanks for sharing!');
 };

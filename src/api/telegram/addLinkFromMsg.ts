@@ -7,7 +7,6 @@ export const addLinkFromMsg = async (msg: Message, ctx: Context) => {
   console.log(entities);
   const urls = convertEntitiesToUrls(entities, text);
   await createLink({ urls, user, group, messageID, text });
-  ctx.reply('Thanks for sharing!');
 };
 
 const convertEntitiesToUrls = (entities: MessageEntity[], text: string): string[] => {

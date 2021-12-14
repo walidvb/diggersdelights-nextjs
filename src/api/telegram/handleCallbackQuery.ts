@@ -23,5 +23,5 @@ export const handleCallbackQuery = async (ctx: Context) => {
   } catch(err){
     console.log('Error adding link: ', JSON.stringify(err, null, 2))
   }
-  await ctx.api.deleteMessage(actionMsg.chat.id, actionMsg.message_id)
+  await ctx.editMessageText(`Link saved to the group's playlist!`)
 }
