@@ -36,7 +36,6 @@ const ItemMini = ({ item, className }) => {
 
 const Squares = ({ item }) => {
   const { isPlaying, play } = useItemState(item)
-  console.log(item)
   const { media: { image_url, title }, metadata: { createdAt,  user: { firstName } }, } = item
   const renderedDate = DateTime.fromISO(createdAt).toLocaleString({ month: 'long', day: 'numeric' })
   return (
