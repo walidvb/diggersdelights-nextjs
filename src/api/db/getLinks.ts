@@ -7,12 +7,16 @@ const getLinks = async (slug: string) => {
     db
       .collection('links')
       .where('group.slug', '==', slug)
+      .orderBy('createdAt', 'desc')
       .get()
       .then((querySnapshot) => {
         const result = []
         querySnapshot.forEach((doc) => {
-          result.push(doc.data())
-          console.log(doc.data())
+          const data = doc.data()
+          if(!data.meta){
+            return
+          }
+          result.push(data)
         })
         resolve({ links: result });
       })
