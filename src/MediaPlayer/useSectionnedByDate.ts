@@ -15,7 +15,7 @@ export const useSectionnedByDate = (items) => {
 
   const sections = items.reduce((acc, item) => {
     const interval = Interval.fromDateTimes(DateTime.fromISO(item.metadata.createdAt), now).length('days');
-    const displayTime = intervals.find((stamp) => interval >= stamp[0]);
+    const displayTime = intervals.find((stamp, i) => interval >= stamp[0] && interval < intervals[i+1][0]);
     if (displayTime) {
       intervals.splice(0, 1);
       return [
@@ -26,7 +26,11 @@ export const useSectionnedByDate = (items) => {
         ...acc,
       ];
     }
+
     const [current, ...past] = acc;
+    if(!displayTime){
+      intervals.splice(0, 1);
+    }
     return [
       {
         ...current,
@@ -36,5 +40,6 @@ export const useSectionnedByDate = (items) => {
     ];
   }, []);
 
+  console.log(sections)
   return sections.reverse();
 };
