@@ -6,10 +6,8 @@ export const handleCallbackQuery = async (ctx: Context) => {
   console.log(ctx)
   const { msg: actionMsg, update: { callback_query } } = ctx
   const { data, message: { reply_to_message: originalMsg } } = callback_query
-  console.log("data", JSON.stringify(originalMsg, null, 2))
   if (data === 'No') {
     await ctx.editMessageText(`Ok, skipping...`)
-    await ctx.api.deleteMessage(actionMsg.chat.id, actionMsg.message_id)
     return
   }
   console.log("going here?!?")
@@ -23,5 +21,5 @@ export const handleCallbackQuery = async (ctx: Context) => {
   } catch(err){
     console.log('Error adding link: ', JSON.stringify(err, null, 2))
   }
-  await ctx.editMessageText(`Link saved to the group's playlist!`)
+  await ctx.api.deleteMessage(actionMsg.chat.id, actionMsg.message_id)
 }
