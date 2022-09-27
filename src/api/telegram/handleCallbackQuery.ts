@@ -21,5 +21,16 @@ export const handleCallbackQuery = async (ctx: Context) => {
   } catch(err){
     console.log('Error adding link: ', JSON.stringify(err, null, 2))
   }
-  await ctx.api.deleteMessage(actionMsg.chat.id, actionMsg.message_id)
+  await ctx.editMessageText(`Link Saved! Use /play to view all posts`)
+  await new Promise((res, rej) => {
+    setTimeout(async () => {
+      try{
+        await ctx.api.deleteMessage(actionMsg.chat.id, actionMsg.message_id)
+        res(null)
+      }
+      catch(err){
+        rej()
+      }
+    })
+  })
 }
