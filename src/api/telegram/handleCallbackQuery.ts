@@ -7,18 +7,17 @@ export const handleCallbackQuery = async (ctx: Context) => {
   const { msg: actionMsg, update: { callback_query } } = ctx
   const { data, message: { reply_to_message: originalMsg } } = callback_query
   if (data === 'No') {
-    await ctx.editMessageText(`Ok, skipping...`)
-  }
-  else{
+    await ctx.editMessageText(`Ok, skipping...`);
+  } else {
     try {
       await ctx.editMessageText(`Cool, saving...`);
     } catch (err) {
-      console.log('Error editing message: ', JSON.stringify(err, null, 2));
+      console.error('Error editing message: ', JSON.stringify(err, null, 2));
     }
     try {
       await addLinkFromMsg(originalMsg, ctx);
     } catch (err) {
-      console.log('Error adding link: ', JSON.stringify(err, null, 2));
+      console.error('Error adding link: ', JSON.stringify(err, null, 2));
     }
     await ctx.editMessageText(`Link Saved! Use /play to view all posts`);
   }

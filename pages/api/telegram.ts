@@ -42,8 +42,7 @@ function wrapInTryCatch(func: (ctx: Context) => void): wrapped{
     try{
       await func(ctx)
     } catch (err) {
-      console.log(err)
-      ctx.reply(`Error! ${JSON.stringify(err)}`)
+      console.error(err)
     }
   }
 }
