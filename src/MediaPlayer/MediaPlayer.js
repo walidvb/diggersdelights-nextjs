@@ -10,13 +10,16 @@ const LazyMedia = ({ image, onClick }) => (
       style={tw`relative cursor-pointer aspect-w-16 aspect-h-9`}
     >
       <YoutubePlayIcon />
-      <img style={`w-full`} src={image} />
+      <img style={`w-full`} src={image} onError={() => {
+        this.onerror = null
+        this.src = 'https://via.placeholder.com/350x125?text=No+Image'
+      }} />
     </View>
   </View>
 )
 
-const Media = ({ 
-  item, 
+const Media = ({
+  item,
   lazy = true,
   style,
 }) => {
@@ -27,7 +30,7 @@ const Media = ({
 
   const { media, seekedTo } = item
   const { url, image_url, embed_url, html } = media
-  
+
   useEffect(() => { if(isPlaying){ setDisplayThumb(false) } }, [isPlaying])
   useEffect(() => {
     if (!player.current || !seekedTo){
@@ -46,12 +49,12 @@ const Media = ({
       return <View tw={style}>
         <iframe
           style={{
-            border: 0, 
-            width: "350px", 
+            border: 0,
+            width: "350px",
             height: "125px"
           }}
          src={embed_url}
-         seamless 
+         seamless
          />
 
       </View>

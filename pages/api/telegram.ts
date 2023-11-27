@@ -19,7 +19,7 @@ bot.command("help", wrapInTryCatch(async (ctx: Context) => {
     'You can type:',
     '/share a_youtube_link – to share a link',
     '/play – to get the link to view all posts',
-  ].join('\n'))ﬁ
+  ].join('\n'))
 }))
 bot.command('play', wrapInTryCatch(async (ctx: Context) => {
     const { msg } = ctx
