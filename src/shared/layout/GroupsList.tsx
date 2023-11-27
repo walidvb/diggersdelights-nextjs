@@ -11,7 +11,7 @@ const GroupItem = ({ group }: { group: Group }) => {
   const isActive = slug === group.slug;
   return (
     // @ts-ignore
-    <Link as={`/groups/${group.slug}`} href={`/groups/:slug?slug=${group.slug}`}>
+    <Link href={`/groups/[slug]?slug=${group.slug}`}>
       <div
         className={`hover:bg-primary p-2 rounded-sm ${
           isActive && 'bg-primary'
