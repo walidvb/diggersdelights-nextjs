@@ -1,30 +1,23 @@
-const { withExpo } = require('@expo/next-adapter');
-const { withUnimodules } = require('@expo/webpack-config/addons');
+const { withExpo } = require("@expo/next-adapter");
 
-const customExpoConfig = {
-  webpack(nextConfig, options) {
-    const babel = {
-      dangerouslyAddModulePathsToTranspile: [
-        'twrnc',
-      ],
-    };
-
-    const expoConfig = withUnimodules(
-      nextConfig,
-      { projectRoot: __dirname, babel },
-      { supportsFontLoading: false },
-    );
-
-    if (expoConfig.output && nextConfig.output) {
-      expoConfig.output.publicPath = nextConfig.output.publicPath;
-    }
-
-    if (typeof nextConfig.webpack === 'function') {
-      return nextConfig.webpack(expoConfig, options);
-    }
-
-    return expoConfig;
-  }
+module.exports = {
+  experimental: {
+    forceSwcTransforms: true,
+  },
 };
-
-module.exports = withExpo(customExpoConfig);
+module.exports = withExpo({
+  reactStrictMode: true,
+  swcMinify: true,
+  // transpilePackages is a Next.js +13.1 feature.
+  // older versions can use next-transpile-modules
+  transpilePackages: [
+    'react-native',
+    'expo',
+    'twrnc',
+    'react-native-super-grid',
+    // Add more React Native/Expo packages here...
+  ],
+  experimental: {
+    forceSwcTransforms: true,
+  },
+});
