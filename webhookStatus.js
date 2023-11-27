@@ -13,17 +13,4 @@ const getWebhookStatus = async () => {
     return data;
 }
 
-// getWebhookStatus();
-
-(async () => {
-const response = await fetch(
-  `http://localhost:3000/api/telegram`, {
-
-  }
-);
-console.log(response);
-return
-const data = await response.json();
-console.log(data);
-return data;
-})()
+getWebhookStatus();
