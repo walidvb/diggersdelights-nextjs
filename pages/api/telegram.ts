@@ -34,11 +34,7 @@ bot.on('message', wrapInTryCatch(async (ctx: Context) => {
   console.log('message', JSON.stringify(ctx.msg, null, 2))
 }))
 
-export default (req, res) => {
-  console.log('webhook called')
-  return res.status(200).json({ name: 'John Doe' })
-}
-// export default webhookCallback(bot, 'next-js', undefined, 5_000)
+export default webhookCallback(bot, 'next-js', undefined, 5_000)
 
 type wrapped = (ctx: Context) => void
 function wrapInTryCatch(func: (ctx: Context) => void): wrapped{
