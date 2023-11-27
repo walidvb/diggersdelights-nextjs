@@ -11,6 +11,7 @@ const LazyMedia = ({ image, onClick }) => (
     >
       <YoutubePlayIcon />
       <img style={`w-full`} src={image} onError={() => {
+        console.log('imgerr', this)
         this.onerror = null
         this.src = 'https://via.placeholder.com/350x125?text=No+Image'
       }} />

@@ -40,11 +40,23 @@ const Squares = ({ item }) => {
   const renderedDate = DateTime.fromISO(createdAt).toLocaleString({ month: 'long', day: 'numeric' })
   return (
     <View style={tw`flex-grow`}>
-      <View style={tw`relative group cursor-pointer mb-2`} onClick={() => play(item)}>
-        <img src={image_url} style={tw`max-w-full h-auto`} />
+      <View
+        style={tw`relative group cursor-pointer mb-2`}
+        onClick={() => play(item)}
+      >
+        <img
+          src={image_url}
+          style={tw`max-w-full h-auto`}
+          onError={(evt) => {
+            console.log('imgerr', evt);
+            evt.target.onerror = null;
+            evt.target.src =
+              'https://via.placeholder.com/350x125?text=No+Image';
+          }}
+        />
         <MediaControls
-          style={tw`absolute text-blue-600 object-center top-1/2 
-            left-1/2 transform -translate-x-1/2 -translate-y-1/2 group-hover:opacity-100 
+          style={tw`absolute text-blue-600 object-center top-1/2
+            left-1/2 transform -translate-x-1/2 -translate-y-1/2 group-hover:opacity-100
             ${!isPlaying && 'opacity-0'}
           `}
           noProgress
@@ -61,10 +73,9 @@ const Squares = ({ item }) => {
         <Text style={tw`text-white text-lg ${isPlaying && 'font-bold'}`}>
           {title}
         </Text>
-
       </View>
     </View>
-  )
+  );
 }
 
 const GridDateSeparator = ({ timestamp }) => {
