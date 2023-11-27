@@ -10,8 +10,7 @@ const GroupItem = ({ group }: { group: Group }) => {
   const { slug } = router.query;
   const isActive = slug === group.slug;
   return (
-    // @ts-ignore
-    <Link href={`/groups/[slug]?slug=${group.slug}`}>
+    <a href={`/groups/${group.slug}`}>
       <div
         className={`hover:bg-primary p-2 rounded-sm ${
           isActive && 'bg-primary'
@@ -22,7 +21,7 @@ const GroupItem = ({ group }: { group: Group }) => {
           {group.meta.linksCount} links shared
         </Text>
       </div>
-    </Link>
+    </a>
   );
 };
 
