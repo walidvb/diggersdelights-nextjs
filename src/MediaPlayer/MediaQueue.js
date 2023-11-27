@@ -51,7 +51,7 @@ const Squares = ({ item }) => {
             console.log('imgerr', evt);
             evt.target.onerror = null;
             evt.target.src =
-              'https://via.placeholder.com/350x125?text=No+Image';
+              '/failed.png';
           }}
         />
         <MediaControls
@@ -114,7 +114,7 @@ export function MediaQueue({
       sections={sections}
       renderItem={({ item }) => (<RenderMedia item={item} />)}
       renderSectionHeader={({ section }) => (<RenderDateSeparator timestamp={section.title} />)}
-      style={tw`pl-0`}
+      style={tw`pl-0 h-full`}
     />
   }
   return (
